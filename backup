@@ -44,7 +44,7 @@ while True:
                 net_connect = ConnectHandler(**nm_connection)
                 find_hostname = net_connect.find_prompt()
                            
-                show_config = ['do show interfaces des']                                                     
+                show_config = ['do show conf']                                                     
                 show_config = net_connect.send_config_set(show_config)
                 print(show_config)
                             
@@ -64,7 +64,7 @@ while True:
                 net_connect = ConnectHandler(**nm_connection)
                 find_hostname = net_connect.find_prompt()
                            
-                show_config = ['do show interfaces des']                                                     
+                show_config = ['do show conf']                                                     
                 show_config = net_connect.send_config_set(show_config)
                 print(show_config)
                             
@@ -83,7 +83,7 @@ while True:
                 net_connect = ConnectHandler(**nm_connection)
                 find_hostname = net_connect.find_prompt()
                            
-                show_config = ['do show interfaces des']                                                     
+                show_config = ['do show conf']                                                     
                 show_config = net_connect.send_config_set(show_config)
                 print(show_config)
                             

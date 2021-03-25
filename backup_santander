@@ -1,0 +1,100 @@
+from datetime import datetime
+from netmiko import ConnectHandler
+import time
+from time import time, sleep
+
+equipo1 = {
+    'device_type': 'cisco_ios',
+    'host': 'equipo1',
+    'ip': '1.1.1.1',
+    'username': 'admin',
+    'password': 'admin121',
+}
+
+equipo2 = {
+    'device_type': 'cisco_ios',
+    'host': 'equipo2',
+    'ip': '1.1.1.2',
+    'username': 'admin',
+    'password': 'admin122',
+}
+
+equipo3 = {
+    'device_type': 'cisco_ios',
+    'host': 'equipo3',
+    'ip': '1.1.1.3',
+    'username': 'admin',
+    'password': 'admin123',
+}
+
+connection_setups = equipo1, equipo2, equipo3
+date = datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
+   
+while True:
+    
+    try:
+        backup = str(input('Indicar cada cuanto hacer el backup:\n\nEnter = cada cinco dias\n6 = cada seis días\n7 = cada siete dias\nOtra tecla: Abortar\n'))
+
+        while backup == '':
+            
+            print('\nEl backup se hará a continuación y luego, cada 5 dias.\n')
+
+            for nm_connection in connection_setups:
+                
+                net_connect = ConnectHandler(**nm_connection)
+                find_hostname = net_connect.find_prompt()
+                           
+                show_config = ['do show interfaces des']                                                     
+                show_config = net_connect.send_config_set(show_config)
+                print(show_config)
+                            
+                hostname = nm_connection['host']
+                with open(f"C:\\backups\\backup_{hostname}_{date}.txt", "w") as fp_:
+                    fp_.write(show_config)
+                    
+            print('\nBackup finalizado. El proximo backup será en 5 días.')
+            sleep(432000 - time() % 432000)
+                                              
+        while backup == '6':
+            
+            print('\nEl backup se hará a continuación y luego, cada 6 dias.\n')
+          
+            for nm_connection in connection_setups:
+                
+                net_connect = ConnectHandler(**nm_connection)
+                find_hostname = net_connect.find_prompt()
+                           
+                show_config = ['do show interfaces des']                                                     
+                show_config = net_connect.send_config_set(show_config)
+                print(show_config)
+                            
+                hostname = nm_connection['host']
+                with open(f"C:\\backups\\backup_{hostname}_{date}.txt", "w") as fp_:
+                    fp_.write(show_config)
+                    
+            print('\nBackup finalizado. El proximo backup será en 6 días.')
+            sleep(518400 - time() % 518400)
+   
+        while backup == '7':
+            
+            print('\nEl backup se hará a continuación y luego, cada 7 dias.\n')
+          
+            for nm_connection in connection_setups:
+                net_connect = ConnectHandler(**nm_connection)
+                find_hostname = net_connect.find_prompt()
+                           
+                show_config = ['do show interfaces des']                                                     
+                show_config = net_connect.send_config_set(show_config)
+                print(show_config)
+                            
+                hostname = nm_connection['host']
+                with open(f"C:\\backups\\backup_{hostname}_{date}.txt", "w") as fp_:
+                    fp_.write(show_config)
+
+            print('\nBackup finalizado. El proximo backup será en 7 días.')
+            sleep(604800 - time() % 604800)
+                
+    finally:
+        if backup !='' or '6'or '7':
+            print('\nAbortando script.\n')
+        break
